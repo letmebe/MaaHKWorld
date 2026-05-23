@@ -467,13 +467,8 @@ assets/config/
 # Agent logs
 agent/logs/
 
-# MFAAvalonia runtime configs
-tools/MFAAvalonia/config/
-tools/MFAAvalonia/logs/
-tools/MFAAvalonia/debug/
-tools/MFAAvalonia/backup/
-tools/MFAAvalonia/temp/
-tools/MFAAvalonia/resource/
+# MFAAvalonia (development debug)
+tools/MFAAvalonia/
 
 # OS
 .DS_Store
