@@ -1,47 +1,46 @@
 @echo off
-chcp 65001 >nul
 cd /d "%~dp0"
 
 echo ========================================
-echo   MaaHKWorld - 王者荣耀世界自动钓鱼助手
+echo   MaaHKWorld - Auto Fishing Assistant
 echo ========================================
 echo.
 
-REM 检查 Python 是否安装
+REM Check Python installation
 python --version >nul 2>&1
 if errorlevel 1 (
-    echo [错误] 未检测到 Python，请先安装 Python 3.8+
-    echo 下载地址: https://www.python.org/downloads/
+    echo [ERROR] Python not found. Please install Python 3.8+
+    echo Download: https://www.python.org/downloads/
     pause
     exit /b 1
 )
 
-REM 检查虚拟环境是否存在
+REM Check virtual environment
 if not exist "venv\Scripts\python.exe" (
-    echo [信息] 虚拟环境不存在，正在创建...
+    echo [INFO] Creating virtual environment...
     python -m venv venv
     if errorlevel 1 (
-        echo [错误] 创建虚拟环境失败
+        echo [ERROR] Failed to create virtual environment
         pause
         exit /b 1
     )
-    echo [成功] 虚拟环境创建完成
+    echo [OK] Virtual environment created
 )
 
-REM 检查依赖是否已安装
+REM Check dependencies
 venv\Scripts\python.exe -c "import maafw, vgamepad, win32api" >nul 2>&1
 if errorlevel 1 (
-    echo [信息] 依赖未安装，正在安装...
-    echo 这可能需要几分钟，请耐心等待...
+    echo [INFO] Installing dependencies...
+    echo This may take a few minutes...
     venv\Scripts\pip.exe install -r requirements.txt
     if errorlevel 1 (
-        echo [错误] 依赖安装失败
+        echo [ERROR] Failed to install dependencies
         pause
         exit /b 1
     )
-    echo [成功] 依赖安装完成
+    echo [OK] Dependencies installed
 )
 
 echo.
-echo [信息] 启动 MFAAvalonia...
+echo [INFO] Starting MFAAvalonia...
 start "" "MFAAvalonia.exe"
