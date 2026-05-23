@@ -60,7 +60,7 @@ class FishingMultiMatchRecognition(CustomRecognition):
         self.roi_return = (1694, 950, 187, 108)
     
     def _load_templates(self):
-        """加载模板图片"""
+        """加载模板图片（灰度图）"""
         template_files = {
             'paogan': 'paogan.png',
             'lagan': 'lagan.png',
@@ -81,13 +81,14 @@ class FishingMultiMatchRecognition(CustomRecognition):
             if path.exists():
                 img = cv2.imread(str(path), cv2.IMREAD_COLOR)
                 if img is not None:
-                    self.templates[name] = img
+                    # 转为灰度图存储，提升匹配速度
+                    self.templates[name] = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     
     def _match_template(self, image: np.ndarray, template_name: str,
                         roi: Tuple[int, int, int, int],
                         threshold: float = 0.75) -> Tuple[Optional[Tuple[float, Tuple[int, int, int, int]]], float]:
         """
-        模板匹配
+        模板匹配（灰度图，速度更快）
         
         Returns:
             (result, score) - result为(score, box)或None，score为匹配分数
@@ -95,16 +96,18 @@ class FishingMultiMatchRecognition(CustomRecognition):
         if template_name not in self.templates:
             return None, 0.0
         
-        template = self.templates[template_name]
+        template = self.templates[template_name]  # 已是灰度图
         x, y, w, h = roi
         
         roi_img = image[y:y+h, x:x+w]
+        # 转为灰度图进行匹配
+        gray_roi = cv2.cvtColor(roi_img, cv2.COLOR_BGR2GRAY)
         
         th, tw = template.shape[:2]
-        if roi_img.shape[0] < th or roi_img.shape[1] < tw:
+        if gray_roi.shape[0] < th or gray_roi.shape[1] < tw:
             return None, 0.0
         
-        result = cv2.matchTemplate(roi_img, template, cv2.TM_CCOEFF_NORMED)
+        result = cv2.matchTemplate(gray_roi, template, cv2.TM_CCOEFF_NORMED)
         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
         
         if max_val >= threshold:

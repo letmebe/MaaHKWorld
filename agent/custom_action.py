@@ -111,13 +111,6 @@ class GamepadController:
         try:
             self._gamepad = vg.VX360Gamepad()
             print("[Gamepad] 虚拟手柄初始化成功")
-            # 测试：按下一个按钮验证手柄工作
-            self._gamepad.press_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
-            self._gamepad.update()
-            time.sleep(0.05)
-            self._gamepad.release_button(vg.XUSB_BUTTON.XUSB_GAMEPAD_A)
-            self._gamepad.update()
-            print("[Gamepad] 测试输入已发送")
         except Exception as e:
             print(f"[Gamepad] 虚拟手柄初始化失败: {e}")
             self._gamepad = None
@@ -142,7 +135,7 @@ class GamepadController:
             self._gamepad.release_button(button_id_map[button])
             self._gamepad.update()
     
-    def quick_tap(self, button: str, count: int = 4, interval: float = 0.05):
+    def quick_tap(self, button: str, count: int = 2, interval: float = 0.05):
         """快速连点"""
         for _ in range(count):
             self.tap_button(button, duration=0.05)
@@ -183,6 +176,8 @@ class ActivateGameWindow(CustomAction):
             return True
         
         try:
+            import ctypes
+            
             hwnd = win32gui.FindWindow("UnrealWindow", "王者荣耀世界")
             if not hwnd:
                 log("[Window] Game window not found")
@@ -191,8 +186,20 @@ class ActivateGameWindow(CustomAction):
             
             log(f"[Window] Found game window: HWND={hwnd}")
             
-            # 强制激活窗口到前台（虚拟手柄需要前台窗口）
-            _force_foreground_window(hwnd)
+            # Method 1: Minimize then restore (make window screenshot-ready)
+            try:
+                win32gui.ShowWindow(hwnd, win32con.SW_MINIMIZE)
+                time.sleep(0.1)
+                win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
+                time.sleep(0.3)
+            except Exception as e:
+                log(f"[Window] ShowWindow failed: {e}")
+            
+            # Method 2: Try to set foreground (may cause taskbar flash)
+            try:
+                win32gui.SetForegroundWindow(hwnd)
+            except Exception:
+                pass
             
             log("[Window] Game window activated")
             time.sleep(0.5)
