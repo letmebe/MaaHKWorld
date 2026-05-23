@@ -45,8 +45,8 @@ echo.
 echo [INFO] Starting MFAAvalonia...
 
 REM Find MFAAvalonia.exe
-REM Release package: current directory
-REM Development: tools/MFAAvalonia/
+REM Release package: current directory (interface.json auto-detected)
+REM Development: tools/MFAAvalonia/ (set resource path manually first time)
 set "MFA_EXE="
 if exist "MFAAvalonia.exe" (
     set "MFA_EXE=MFAAvalonia.exe"
