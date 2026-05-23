@@ -21,16 +21,24 @@
 
 ## 快速开始
 
-### 下载
+### 前置要求
 
-从 [Releases](https://github.com/letmebe/HKWorld/releases) 下载最新版本 `MaaHKWorld-win-x86_64-*.zip`
+1. **Python 3.8+** - [下载地址](https://www.python.org/downloads/)
+2. **ViGEmBus 驱动** - [下载地址](https://github.com/ViGEm/ViGEmBus)（安装后重启电脑）
 
-### 启动
+### 下载与启动
 
-1. 解压后双击 `MFAAvalonia.exe`
-2. 启动游戏，进入钓鱼场景
-3. 在 MFAAvalonia 中选择任务 "开始钓鱼"
-4. 点击 **运行** 按钮
+1. 从 [Releases](https://github.com/letmebe/HKWorld/releases) 下载最新版本 `MaaHKWorld-win-x86_64-*.zip`
+
+2. 解压后双击 **`启动钓鱼助手.bat`**
+
+3. 首次运行会自动：
+   - 创建虚拟环境 `venv/`
+   - 安装依赖 `maafw`, `vgamepad`, `pywin32`
+
+4. 启动游戏，进入钓鱼场景
+
+5. 在 MFAAvalonia 中选择任务 "开始钓鱼"，点击 **运行**
 
 ## 项目结构
 
@@ -52,15 +60,6 @@ HKWorld/
 ├── venv/                       # Python 虚拟环境
 └── requirements.txt            # Python 依赖
 ```
-
-## 前置要求
-
-### ViGEmBus 驱动
-
-虚拟手柄需要 ViGEmBus 驱动：
-
-- 下载：https://github.com/ViGEm/ViGEmBus
-- 安装后重启电脑
 
 ## 配置说明
 
