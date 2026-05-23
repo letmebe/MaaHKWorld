@@ -5,7 +5,7 @@
 
 <div align="center">
 
-# MaaFisher - 王者荣耀世界自动钓鱼助手
+# MaaHKWorld - 王者荣耀世界自动钓鱼助手
 
 </div>
 
@@ -15,44 +15,22 @@
 
 - 基于图像识别的自动化操作
 - 使用虚拟手柄绕过游戏键鼠屏蔽
+- 支持后台运行（窗口可最小化）
 - 使用 MFAAvalonia 通用 UI
 - 低代码 JSON 配置，易于维护和扩展
 
 ## 快速开始
 
-### 1. 安装依赖
+### 下载
 
-```bash
-pip install -r requirements.txt
-```
+从 [Releases](https://github.com/letmebe/HKWorld/releases) 下载最新版本 `MaaHKWorld-win-x86_64-*.zip`
 
-或双击运行：
-```
-tools/MFAAvalonia/DependencySetup_依赖库安装_win.bat
-```
+### 启动
 
-### 2. 启动程序
-
-**方式 A（推荐）**：双击 `启动钓鱼助手.bat`
-
-**方式 B**：
-```
-cd tools/MFAAvalonia
-启动UI.bat
-```
-
-### 3. 配置项目
-
-首次运行需要配置项目路径：
-
-1. 在 MFAAvalonia 中点击右上角 **设置**
-2. 选择资源路径：`assets/interface.json`
-3. 保存
-
-### 4. 运行钓鱼
-
-1. 选择任务 "开始钓鱼"
-2. 点击 **运行** 按钮
+1. 解压后双击 `MFAAvalonia.exe`
+2. 启动游戏，进入钓鱼场景
+3. 在 MFAAvalonia 中选择任务 "开始钓鱼"
+4. 点击 **运行** 按钮
 
 ## 项目结构
 
@@ -64,39 +42,68 @@ HKWorld/
 │   ├── fishing_recognition.py  # 多模板匹配识别器
 │   └── fishing_action.py       # 识别结果处理
 ├── assets/
-│   └── resource/
-│       ├── image/              # 图像模板(14个)
-│       ├── model/ocr/          # OCR 模型
-│       └── pipeline/           # Pipeline 配置
-├── tools/
-│   └── MFAAvalonia/            # 通用 UI
-│       ├── MFAAvalonia.exe     # 主程序
-│       ├── 启动UI.bat          # 启动脚本
-│       └── start_agent.py      # Agent 启动
+│   ├── resource/
+│   │   ├── image/              # 图像模板(14个)
+│   │   ├── model/ocr/          # OCR 模型 (由CI自动配置)
+│   │   └── pipeline/           # Pipeline 配置
+│   ├── MaaCommonAssets/        # OCR 模型 submodule
+│   └── interface.json          # 项目配置
+├── tools/                      # CI/CD 工具
 ├── venv/                       # Python 虚拟环境
-├── assets/interface.json       # 项目配置
-├── 启动钓鱼助手.bat            # 快速启动
 └── requirements.txt            # Python 依赖
 ```
 
 ## 前置要求
 
-### 1. ViGEmBus 驱动
+### ViGEmBus 驱动
 
 虚拟手柄需要 ViGEmBus 驱动：
 
 - 下载：https://github.com/ViGEm/ViGEmBus
 - 安装后重启电脑
 
-### 2. OCR 模型
+## 配置说明
 
-从 [MaaCommonAssets/OCR](https://github.com/MaaXYZ/MaaCommonAssets/tree/main/OCR) 下载：
+### 控制器配置 (interface.json)
 
-- `det.onnx` - 文字检测模型
-- `rec.onnx` - 文字识别模型
-- `keys.txt` - 字符字典
+当前配置支持后台运行：
 
-放置到 `assets/resource/model/ocr/`
+| 配置项 | 值 | 说明 |
+|--------|-----|------|
+| screencap | FramePool | 极快，支持后台截图 (Win10 1903+) |
+| mouse | SendMessage | 支持后台输入 |
+| keyboard | SendMessage | 支持后台输入 |
+
+### 平台支持
+
+当前仅支持 **Windows x86_64**，其他平台构建已禁用。
+
+## 开发
+
+### 本地开发
+
+```bash
+# 安装依赖
+pip install -r requirements.txt
+
+# 初始化 submodule
+git submodule update --init --recursive
+```
+
+### 发布版本
+
+```bash
+# 提交代码
+git add .
+git commit -m "feat: 新功能"
+git push
+
+# 创建 tag 触发 CI 构建
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+CI 会自动打包 MFAAvalonia + 项目资源并发布到 Releases。
 
 ## 常见问题
 
@@ -125,7 +132,6 @@ A:
 ## 文档
 
 - [开发指南](DEVELOPMENT.md) - 开发环境、架构说明、开发复盘
-- [如何开发](./docs/zh_cn/develop/how_to_develop.md) - MaaFramework 开发指南
 
 ## 鸣谢
 
