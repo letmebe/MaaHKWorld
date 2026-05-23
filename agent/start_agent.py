@@ -2,6 +2,7 @@
 """
 Agent 启动脚本
 """
+import sys
 # 导入并启动 Agent
 from agent_server import start_agent_server
 
