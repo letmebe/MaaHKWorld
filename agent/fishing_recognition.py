@@ -28,8 +28,13 @@ class FishingMultiMatchRecognition(CustomRecognition):
     def __init__(self):
         super().__init__()
         
-        # 加载模板
-        self.template_dir = Path(__file__).parent.parent / 'assets' / 'resource' / 'image'
+        # 加载模板 - 自动检测路径
+        # 开发环境: agent/../assets/resource/image
+        # 发布包: agent/../resource/image
+        dev_path = Path(__file__).parent.parent / 'assets' / 'resource' / 'image'
+        release_path = Path(__file__).parent.parent / 'resource' / 'image'
+        self.template_dir = dev_path if dev_path.exists() else release_path
+        
         self.templates = {}
         self._load_templates()
         
