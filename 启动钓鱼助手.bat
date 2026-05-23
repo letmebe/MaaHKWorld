@@ -28,7 +28,7 @@ if not exist "venv\Scripts\python.exe" (
 )
 
 REM Check dependencies
-venv\Scripts\python.exe -c "import maafw, vgamepad, win32api" >nul 2>&1
+venv\Scripts\python.exe -c "import maafw, vgamepad, win32api, cv2, numpy" >nul 2>&1
 if errorlevel 1 (
     echo [INFO] Installing dependencies...
     echo This may take a few minutes...
