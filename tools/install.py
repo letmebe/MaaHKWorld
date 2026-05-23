@@ -119,19 +119,23 @@ def install_resource():
     interface["version"] = version
 
     # 修正发布包中的路径
-    # interface.json 在发布包根目录，相对路径需要调整
+    # interface.json 在发布包根目录，移除 ../../ 前缀
     if "agent" in interface:
         if "child_exec" in interface["agent"]:
-            # ../venv/Scripts/python.exe -> venv/Scripts/python.exe
-            interface["agent"]["child_exec"] = interface["agent"]["child_exec"].replace("../", "")
+            # ../../venv/Scripts/python.exe -> venv/Scripts/python.exe
+            interface["agent"]["child_exec"] = interface["agent"]["child_exec"].replace("../../", "")
         if "child_args" in interface["agent"]:
-            # 修正 child_args 中的路径
             interface["agent"]["child_args"] = [
-                arg.replace("../", "") for arg in interface["agent"]["child_args"]
+                arg.replace("../../", "") for arg in interface["agent"]["child_args"]
             ]
 
-    # resource.path 保持 "resource" 不变，因为发布包中 resource/ 在根目录
-    # 无需修改
+    if "resource" in interface:
+        for res in interface["resource"]:
+            if "path" in res:
+                # ../../assets/resource -> resource
+                res["path"] = [
+                    p.replace("../../assets/", "") for p in res["path"]
+                ]
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         jsonc.dump(interface, f, ensure_ascii=False, indent=4)

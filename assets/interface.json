@@ -6,9 +6,9 @@
     "version": "1.0.0",
     "description": "基于图像识别的王者荣耀世界自动钓鱼助手",
     "agent": {
-        "child_exec": "../venv/Scripts/python.exe",
+        "child_exec": "../../venv/Scripts/python.exe",
         "child_args": [
-            "../agent/start_agent.py"
+            "../../agent/start_agent.py"
         ]
     },
     "controller": [
@@ -16,6 +16,7 @@
             "name": "Windows",
             "label": "Windows桌面",
             "type": "Win32",
+            "display_raw": true,
             "win32": {
                 "class_regex": "UnrealWindow",
                 "window_regex": "王者荣耀世界",
@@ -30,7 +31,7 @@
             "name": "FishingResource",
             "label": "钓鱼资源",
             "path": [
-                "resource"
+                "../../assets/resource"
             ]
         }
     ],
