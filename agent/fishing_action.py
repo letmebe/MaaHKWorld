@@ -8,7 +8,7 @@ from maa.custom_action import CustomAction
 from maa.context import Context
 
 from custom_action import GamepadController
-from agent_server import log  # 使用统一的日志函数
+from logger import log  # 使用统一的日志函数
 
 
 class FishingMultiMatchAction(CustomAction):

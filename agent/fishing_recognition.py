@@ -15,8 +15,8 @@ from maa.custom_recognition import CustomRecognition
 from maa.context import Context
 from maa.define import RectType
 
-# 从 agent_server 导入统一的日志函数
-from agent_server import log
+# 从 logger 导入统一的日志函数
+from logger import log
 
 
 class FishingMultiMatchRecognition(CustomRecognition):
