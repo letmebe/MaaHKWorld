@@ -42,11 +42,21 @@ if errorlevel 1 (
 )
 
 echo.
+echo [INFO] Configuring MFAAvalonia...
+
+REM Check if development environment (assets/interface.json exists)
+if exist "assets\interface.json" (
+    REM Development: setup interface.json for tools/MFAAvalonia/
+    if exist "tools\MFAAvalonia\MFAAvalonia.exe" (
+        venv\Scripts\python.exe tools\setup_interface.py
+    )
+)
+
 echo [INFO] Starting MFAAvalonia...
 
 REM Find MFAAvalonia.exe
-REM Release package: current directory (interface.json auto-detected)
-REM Development: tools/MFAAvalonia/ (set resource path manually first time)
+REM Release package: current directory
+REM Development: tools/MFAAvalonia/
 set "MFA_EXE="
 if exist "MFAAvalonia.exe" (
     set "MFA_EXE=MFAAvalonia.exe"

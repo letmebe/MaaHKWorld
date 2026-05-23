@@ -130,6 +130,9 @@ def install_resource():
                 arg.replace("../", "") for arg in interface["agent"]["child_args"]
             ]
 
+    # resource.path 保持 "resource" 不变，因为发布包中 resource/ 在根目录
+    # 无需修改
+
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         jsonc.dump(interface, f, ensure_ascii=False, indent=4)
 
