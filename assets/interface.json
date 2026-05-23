@@ -39,7 +39,7 @@
         {
             "name": "StartFishing",
             "label": "开始钓鱼",
-            "entry": "钓鱼主循环",
+            "entry": "激活游戏窗口",
             "default_check": true,
             "description": "自动执行钓鱼操作，包括抛竿、拉杆、连点等"
         }
