@@ -46,9 +46,10 @@ echo [INFO] Configuring MFAAvalonia...
 
 REM Check if development environment (assets/interface.json exists)
 if exist "assets\interface.json" (
-    REM Development: setup interface.json for tools/MFAAvalonia/
+    REM Development: copy interface.json to tools/MFAAvalonia/
     if exist "tools\MFAAvalonia\MFAAvalonia.exe" (
-        venv\Scripts\python.exe tools\setup_interface.py
+        copy /Y "assets\interface.json" "tools\MFAAvalonia\interface.json" >nul
+        echo [OK] Copied interface.json to tools/MFAAvalonia/
     )
 )
 
