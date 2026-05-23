@@ -131,6 +131,14 @@ def install_chores():
         working_dir / "LICENSE",
         install_path,
     )
+    shutil.copy2(
+        working_dir / "requirements.txt",
+        install_path,
+    )
+    shutil.copy2(
+        working_dir / "启动钓鱼助手.bat",
+        install_path,
+    )
 
 
 def install_agent():
