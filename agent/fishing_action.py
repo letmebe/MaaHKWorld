@@ -55,14 +55,14 @@ class FishingMultiMatchAction(CustomAction):
         
         if not reco_detail:
             log("[FishingAction] 无识别结果")
-            return False
+            return True  # 继续循环
         
         # 从 raw_detail 获取 - 结构是 {'best': {'detail': {...}}}
         detail_dict = reco_detail.raw_detail
         
         if not detail_dict:
             log("[FishingAction] 无识别detail")
-            return False
+            return True  # 继续循环
         
         # 从 best.detail 获取自定义字段
         best = detail_dict.get('best', {})
@@ -70,7 +70,7 @@ class FishingMultiMatchAction(CustomAction):
         
         if not detail:
             log("[FishingAction] detail 为空")
-            return False
+            return True  # 继续循环
         
         name = detail.get('name')
         action = detail.get('action')
@@ -80,14 +80,14 @@ class FishingMultiMatchAction(CustomAction):
         if action == 'skip':
             return True
         
-        # 检查冷却
+        # 检查冷却（冷却中跳过但继续循环）
         if not self._check_cooldown(name):
-            return False
+            return True
         
         # 特殊处理：取消准备只执行一次
         if name == 'quxiaozhunbei':
             if self._quxiaozhunbei_executed:
-                return False
+                return True  # 已执行过，跳过但继续循环
             self._quxiaozhunbei_executed = True
         
         # 执行对应动作
@@ -126,8 +126,7 @@ class FishingMultiMatchAction(CustomAction):
         # 更新冷却
         if executed:
             self._update_cooldown(name)
+            t_elapsed = (time.perf_counter() - t_start) * 1000
+            log(f"[Action] {name} → {action} | 耗时: {t_elapsed:.1f}ms")
         
-        t_elapsed = (time.perf_counter() - t_start) * 1000
-        log(f"[Action] {name} → {action} | 耗时: {t_elapsed:.1f}ms")
-        
-        return executed
+        return True  # 始终返回 True 以继续循环
