@@ -19,9 +19,9 @@
             "win32": {
                 "class_regex": "UnrealWindow",
                 "window_regex": "王者荣耀世界",
-                "screencap": "GDI",
-                "mouse": "Seize",
-                "keyboard": "Seize"
+                "screencap": "FramePool",
+                "mouse": "SendMessage",
+                "keyboard": "SendMessage"
             }
         }
     ],
