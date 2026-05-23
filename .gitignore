@@ -470,6 +470,9 @@ agent/logs/
 # MFAAvalonia (development debug)
 tools/MFAAvalonia/
 
+# IDE tools
+.codeartsdoer/
+
 # OS
 .DS_Store
 Thumbs.db
