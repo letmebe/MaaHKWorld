@@ -167,10 +167,11 @@ class ActivateGameWindow(CustomAction):
         if self._activated:
             return True
         
-        print("[Window] 激活游戏窗口...")
+        from logger import log
+        log("[Window] Activating game window...")
         
         if not _WIN32_AVAILABLE:
-            print("[Window] win32gui 未安装，跳过窗口激活")
+            log("[Window] win32gui not available, skipping")
             self._activated = True
             return True
         
@@ -179,32 +180,32 @@ class ActivateGameWindow(CustomAction):
             
             hwnd = win32gui.FindWindow("UnrealWindow", "王者荣耀世界")
             if not hwnd:
-                print("[Window] 未找到游戏窗口")
+                log("[Window] Game window not found")
                 self._activated = True
                 return True
             
-            print(f"[Window] 找到游戏窗口: HWND={hwnd}")
+            log(f"[Window] Found game window: HWND={hwnd}")
             
-            # 方法1: 最小化再恢复（让窗口进入可截图状态）
+            # Method 1: Minimize then restore (make window screenshot-ready)
             try:
                 win32gui.ShowWindow(hwnd, win32con.SW_MINIMIZE)
                 time.sleep(0.1)
                 win32gui.ShowWindow(hwnd, win32con.SW_RESTORE)
                 time.sleep(0.3)
             except Exception as e:
-                print(f"[Window] ShowWindow 失败: {e}")
+                log(f"[Window] ShowWindow failed: {e}")
             
-            # 方法2: 尝试激活前台（可能触发任务栏闪烁）
+            # Method 2: Try to set foreground (may cause taskbar flash)
             try:
                 win32gui.SetForegroundWindow(hwnd)
             except Exception:
                 pass
             
-            print("[Window] 游戏窗口已激活")
+            log("[Window] Game window activated")
             time.sleep(0.5)
             
         except Exception as e:
-            print(f"[Window] 激活窗口失败: {e}")
+            log(f"[Window] Failed to activate window: {e}")
         
         self._activated = True
         return True
@@ -219,7 +220,9 @@ class ActivateGamepad(CustomAction):
         if self._activated:
             return True
         
-        print("[Gamepad] 激活虚拟手柄模式...")
+        from logger import log
+        log("[Gamepad] Activating virtual gamepad mode...")
+        
         controller = GamepadController()
         
         controller.tap_button('A', duration=0.1)
@@ -227,6 +230,6 @@ class ActivateGamepad(CustomAction):
         controller.tap_button('A', duration=0.1)
         time.sleep(0.5)
         
-        print("[Gamepad] 虚拟手柄模式已激活")
+        log("[Gamepad] Virtual gamepad mode activated")
         self._activated = True
         return True
