@@ -43,4 +43,21 @@ if errorlevel 1 (
 
 echo.
 echo [INFO] Starting MFAAvalonia...
-start "" "MFAAvalonia.exe"
+
+REM Find MFAAvalonia.exe
+REM Release package: current directory
+REM Development: tools/MFAAvalonia/
+set "MFA_EXE="
+if exist "MFAAvalonia.exe" (
+    set "MFA_EXE=MFAAvalonia.exe"
+) else if exist "tools\MFAAvalonia\MFAAvalonia.exe" (
+    set "MFA_EXE=tools\MFAAvalonia\MFAAvalonia.exe"
+)
+
+if "%MFA_EXE%"=="" (
+    echo [ERROR] MFAAvalonia.exe not found
+    pause
+    exit /b 1
+)
+
+start "" "%MFA_EXE%"
