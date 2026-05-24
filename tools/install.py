@@ -155,7 +155,7 @@ def install_chores():
         install_path,
     )
     shutil.copy2(
-        working_dir / "启动钓鱼助手.bat",
+        working_dir / "启动王世界助手.bat",
         install_path,
     )
 
