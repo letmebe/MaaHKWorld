@@ -5,11 +5,11 @@
 
 <div align="center">
 
-# MaaHKWorld - 王者荣耀世界自动钓鱼助手
+# MaaHKWorld - 王者荣耀世界游戏助手
 
 </div>
 
-基于 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 开发的王者荣耀世界游戏自动钓鱼助手。
+基于 [MaaFramework](https://github.com/MaaXYZ/MaaFramework) 开发的王者荣耀世界游戏助手，目前仅支持自动钓鱼，之后准备添加自动浇水、收菜、派遣等辅助功能。
 
 ## 特性
 
@@ -17,7 +17,7 @@
 - 使用虚拟手柄绕过游戏键鼠屏蔽
 - 支持后台运行（窗口可最小化）
 - 使用 MFAAvalonia 通用 UI
-- 低代码 JSON 配置，易于维护和扩展
+
 
 ## 快速开始
 
@@ -34,30 +34,35 @@
 
 3. 首次运行会自动：
    - 创建虚拟环境 `venv/`
-   - 安装依赖 `maafw`, `vgamepad`, `pywin32`
+   - 安装 `maafw`, `vgamepad`, `pywin32`等依赖
 
-4. 启动游戏，进入钓鱼场景
+4. 启动游戏，启用鱼竿后进入钓鱼场景，注意确保鱼饵充足，水面背景干净文字清晰，尤其要保证右下角的抛竿等指令区域不能有干扰（类似下图所示）：
+![示例场景](./assets/resource/image/example.png)
 
-5. 在 MFAAvalonia 中选择任务 "开始钓鱼"，点击 **运行**
+5. 在 MFAAvalonia 中选择任务 "开始钓鱼"，点击 **开始任务**
 
 ## 项目结构
 
 ```
-HKWorld/
+MaaHKWorld/
 ├── agent/                      # 自定义扩展
 │   ├── agent_server.py         # Agent 服务注册
-│   ├── custom_action.py        # 虚拟手柄控制
-│   ├── fishing_recognition.py  # 多模板匹配识别器
-│   └── fishing_action.py       # 识别结果处理
+│   ├── custom_action.py        # 虚拟手柄控制、窗口激活
+│   ├── fishing_recognition.py  # 多模板匹配识别器（灰度图优化）
+│   ├── fishing_action.py       # 识别结果处理动作
+│   ├── logger.py               # 统一日志模块（按日期轮转）
+│   └── logs/                   # 运行日志（自动清理）
 ├── assets/
 │   ├── resource/
-│   │   ├── image/              # 图像模板(14个)
-│   │   ├── model/ocr/          # OCR 模型 (由CI自动配置)
+│   │   ├── image/              # 图像模板
+│   │   ├── model/ocr/          # OCR 模型（由CI自动配置）
 │   │   └── pipeline/           # Pipeline 配置
 │   ├── MaaCommonAssets/        # OCR 模型 submodule
 │   └── interface.json          # 项目配置
 ├── tools/                      # CI/CD 工具
-├── venv/                       # Python 虚拟环境
+│   └── install.py              # CI 安装脚本（路径自动适配）
+├── venv/                       # Python 虚拟环境（自动创建）
+├── 启动钓鱼助手.bat            # 启动脚本（自动配置环境）
 └── requirements.txt            # Python 依赖
 ```
 
@@ -115,7 +120,7 @@ A:
 2. 检查 Python 环境：`venv/Scripts/python.exe`
 
 ### Q: 虚拟手柄不工作
-A: 需要安装 ViGEmBus 驱动并重启
+A: 需要安装 ViGEmBus 驱动并重启，正常情况下MFAAvalonia开始任务后，右下角托盘区域会出现Xbox360控制器图标，听到设备连接的提示声。
 
 ### Q: 识别失败
 A:
