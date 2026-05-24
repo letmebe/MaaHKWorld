@@ -43,8 +43,9 @@ def prepare_interface_for_check(output_path=None):
     if "resource" in interface:
         for res in interface["resource"]:
             if "path" in res:
+                # ../../assets/resource -> assets/resource
                 res["path"] = [
-                    p.replace("../../assets/", "") for p in res["path"]
+                    p.replace("../../", "") for p in res["path"]
                 ]
     
     if output_path is None:
