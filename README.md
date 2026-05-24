@@ -62,7 +62,7 @@ MaaHKWorld/
 ├── tools/                      # CI/CD 工具
 │   └── install.py              # CI 安装脚本（路径自动适配）
 ├── venv/                       # Python 虚拟环境（自动创建）
-├── 启动钓鱼助手.bat            # 启动脚本（自动配置环境）
+├── 启动王世界助手.bat          # 启动脚本（自动配置环境）
 └── requirements.txt            # Python 依赖
 ```
 
