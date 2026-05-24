@@ -1,10 +1,10 @@
 {
     "interface_version": 2,
-    "name": "MaaFisher",
+    "name": "MaaHKWorld",
     "label": "王者荣耀世界自动钓鱼助手",
-    "title": "MaaFisher v1.0.0",
+    "title": "MaaHKWorld v1.0.0",
     "version": "1.0.0",
-    "description": "基于图像识别的王者荣耀世界自动钓鱼助手",
+    "description": "基于图像识别的王者荣耀世界助手，目前仅实现了自动钓鱼",
     "agent": {
         "child_exec": "../../venv/Scripts/python.exe",
         "child_args": [

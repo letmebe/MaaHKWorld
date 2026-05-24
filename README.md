@@ -40,6 +40,7 @@
 ![示例场景](./assets/resource/image/example.png)
 
 5. 在 MFAAvalonia 中选择任务 "开始钓鱼"，点击 **开始任务**
+![运行界面](./assets/resource/image/running.png)
 
 ## 项目结构
 
