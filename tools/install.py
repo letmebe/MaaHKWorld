@@ -13,6 +13,7 @@ except ModuleNotFoundError as e:
     ) from e
 
 from configure import configure_ocr_model
+from prepare_interface import prepare_interface_for_check
 
 
 working_dir = Path(__file__).parent.parent.resolve()
@@ -108,35 +109,16 @@ def install_resource():
         install_path / "resource",
         dirs_exist_ok=True,
     )
-    shutil.copy2(
-        working_dir / "assets" / "interface.json",
-        install_path,
-    )
-
+    
+    # 使用 prepare_interface_for_check 处理路径
+    prepare_interface_for_check(install_path / "interface.json")
+    
+    # 更新版本号
     with open(install_path / "interface.json", "r", encoding="utf-8") as f:
         interface = jsonc.load(f)
-
+    
     interface["version"] = version
-
-    # 修正发布包中的路径
-    # interface.json 在发布包根目录，移除 ../../ 前缀
-    if "agent" in interface:
-        if "child_exec" in interface["agent"]:
-            # ../../venv/Scripts/python.exe -> venv/Scripts/python.exe
-            interface["agent"]["child_exec"] = interface["agent"]["child_exec"].replace("../../", "")
-        if "child_args" in interface["agent"]:
-            interface["agent"]["child_args"] = [
-                arg.replace("../../", "") for arg in interface["agent"]["child_args"]
-            ]
-
-    if "resource" in interface:
-        for res in interface["resource"]:
-            if "path" in res:
-                # ../../assets/resource -> resource
-                res["path"] = [
-                    p.replace("../../assets/", "") for p in res["path"]
-                ]
-
+    
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         jsonc.dump(interface, f, ensure_ascii=False, indent=4)
 
