@@ -476,3 +476,6 @@ tools/MFAAvalonia/
 # OS
 .DS_Store
 Thumbs.db
+
+# Development docs
+DEVELOPMENT.md
