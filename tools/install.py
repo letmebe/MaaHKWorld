@@ -132,10 +132,8 @@ def install_resource():
     if "resource" in interface:
         for res in interface["resource"]:
             if "path" in res:
-                # ../../assets/resource -> resource
-                res["path"] = [
-                    p.replace("../../assets/", "") for p in res["path"]
-                ]
+                # ../../assets/resource -> ./resource
+                res["path"] = ["./resource"]
 
     with open(install_path / "interface.json", "w", encoding="utf-8") as f:
         jsonc.dump(interface, f, ensure_ascii=False, indent=4)

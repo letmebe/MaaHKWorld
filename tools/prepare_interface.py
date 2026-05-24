@@ -11,15 +11,12 @@ except ModuleNotFoundError as e:
     ) from e
 
 
-def prepare_interface_for_check(output_path=None):
+def prepare_interface_for_check():
     """
     准备用于 maa-checker 的 interface.json
     
+    直接修改 assets/interface.json 中的路径
     将开发环境的路径转换为适合 maa-checker 检查的路径
-    maa-checker 从项目根目录运行，需要移除 ../../ 前缀
-    
-    Args:
-        output_path: 输出路径，默认为项目根目录的 interface.json
     """
     working_dir = Path(__file__).parent.parent.resolve()
     interface_file = working_dir / "assets" / "interface.json"
@@ -43,23 +40,14 @@ def prepare_interface_for_check(output_path=None):
     if "resource" in interface:
         for res in interface["resource"]:
             if "path" in res:
-                # ../../assets/resource -> assets/resource
-                res["path"] = [
-                    p.replace("../../", "") for p in res["path"]
-                ]
+                # ../../assets/resource -> ./resource
+                res["path"] = ["./resource"]
     
-    if output_path is None:
-        output_path = working_dir / "interface.json"
-    else:
-        output_path = Path(output_path)
-    
-    with open(output_path, "w", encoding="utf-8") as f:
+    with open(interface_file, "w", encoding="utf-8") as f:
         jsonc.dump(interface, f, ensure_ascii=False, indent=4)
     
-    print(f"Prepared interface.json for check: {output_path}")
-    return output_path
+    print(f"Prepared interface.json for check: {interface_file}")
 
 
 if __name__ == "__main__":
-    output = sys.argv[1] if len(sys.argv) > 1 else None
-    prepare_interface_for_check(output)
+    prepare_interface_for_check()
