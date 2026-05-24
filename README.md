@@ -30,16 +30,16 @@
 
 1. 从 [Releases](https://github.com/letmebe/HKWorld/releases) 下载最新版本 `MaaHKWorld-win-x86_64-*.zip`
 
-2. 解压后运行 **`DependencySetup_依赖库安装_win`** 安装MFAAvalonia运行所需的依赖如.NET Desktop Runtime、Visual C++ Redistributable。
+2. 解压后运行 **`DependencySetup_依赖库安装_win.bat`** 安装MFAAvalonia运行所需的依赖如 .NET Desktop Runtime、Visual C++ Redistributable。
 
 3. 双击 **`启动王世界助手.bat`** 启动 MFAAvalonia。 首次运行会自动：
    - 创建虚拟环境 `venv/`
-   - 安装 `maafw`, `vgamepad`, `pywin32` 等agent_server运行所需依赖
+   - 安装 `maafw`, `vgamepad`, `pywin32` 等 agent_server 运行所需依赖
 
 4. 启动游戏，启用鱼竿后进入钓鱼场景，注意确保鱼饵充足，水面背景干净文字清晰，尤其要保证右下角的抛竿等指令区域不能有干扰（类似下图所示）：
 ![示例场景](./assets/resource/image/example.png)
 
-5. 在 MFAAvalonia 中选择任务 "开始钓鱼"，点击 **开始任务**
+5. 在 MFAAvalonia 中选择任务 "自动钓鱼"，点击 **开始任务**
 ![运行界面](./assets/resource/image/running.png)
 
 ## 项目结构
