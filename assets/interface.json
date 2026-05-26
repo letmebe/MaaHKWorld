@@ -3,6 +3,7 @@
     "name": "MaaHKWorld",
     "label": "王者荣耀世界自动化助手",
     "title": "MaaHKWorld v1.0.0",
+    "github": "https://github.com/letmebe/MaaHKWorld",
     "version": "1.0.0",
     "description": "基于图像识别的王者荣耀世界自动化助手，目前仅实现了自动钓鱼",
     "agent": {
@@ -41,7 +42,7 @@
             "label": "自动钓鱼",
             "entry": "激活游戏窗口",
             "default_check": true,
-            "description": "自动执行钓鱼操作，包括抛竿、拉杆、连点等"
+            "description": "自动执行钓鱼操作，包括抛竿、拉杆、连点、QTE等"
         }
     ],
     "option": {}
