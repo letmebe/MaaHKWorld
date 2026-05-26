@@ -32,14 +32,16 @@
 
 2. 解压后运行 **`DependencySetup_依赖库安装_win.bat`** 安装MFAAvalonia运行所需的依赖如 .NET Desktop Runtime、Visual C++ Redistributable。
 
-3. 双击 **`启动王世界助手.bat`** 启动 MFAAvalonia。 首次运行会自动：
+3. 启动游戏，注意一定要将游戏分辨率设置为1920x1080，当前所有模板和匹配区域均基于此分辨率，在其它分辨率情况下无法正常工作!
+
+4. 启用鱼竿后进入钓鱼场景，注意确保鱼饵充足，水面背景干净文字清晰，尤其要保证右下角的抛竿等指令区域不能有干扰（类似下图所示）：
+![示例场景](./assets/resource/image/example.png)
+
+5. 双击 **`启动王世界助手.bat`** 启动 MFAAvalonia。 首次运行会自动：
    - 创建虚拟环境 `venv/`
    - 安装 `maafw`, `vgamepad`, `pywin32` 等 agent_server 运行所需依赖
 
-4. 启动游戏，启用鱼竿后进入钓鱼场景，注意确保鱼饵充足，水面背景干净文字清晰，尤其要保证右下角的抛竿等指令区域不能有干扰（类似下图所示）：
-![示例场景](./assets/resource/image/example.png)
-
-5. 在 MFAAvalonia 中选择任务 "自动钓鱼"，点击 **开始任务**
+6. 在 MFAAvalonia 中选择任务 "自动钓鱼"，点击 **开始任务**
 ![运行界面](./assets/resource/image/running.png)
 
 ## 项目结构
