@@ -161,18 +161,12 @@ class GamepadController:
 class ActivateGameWindow(CustomAction):
     """激活游戏窗口"""
     
-    _activated = False
-    
     def run(self, context: Context, argv) -> bool:
-        if self._activated:
-            return True
-        
         from logger import log
         log("[Window] Activating game window...")
         
         if not _WIN32_AVAILABLE:
             log("[Window] win32gui not available, skipping")
-            self._activated = True
             return True
         
         try:
@@ -181,7 +175,6 @@ class ActivateGameWindow(CustomAction):
             hwnd = win32gui.FindWindow("UnrealWindow", "王者荣耀世界")
             if not hwnd:
                 log("[Window] Game window not found")
-                self._activated = True
                 return True
             
             log(f"[Window] Found game window: HWND={hwnd}")
@@ -207,19 +200,13 @@ class ActivateGameWindow(CustomAction):
         except Exception as e:
             log(f"[Window] Failed to activate window: {e}")
         
-        self._activated = True
         return True
 
 
 class ActivateGamepad(CustomAction):
     """激活游戏手柄模式"""
     
-    _activated = False
-    
     def run(self, context: Context, argv) -> bool:
-        if self._activated:
-            return True
-        
         from logger import log
         log("[Gamepad] Activating virtual gamepad mode...")
         
@@ -231,5 +218,4 @@ class ActivateGamepad(CustomAction):
         time.sleep(0.5)
         
         log("[Gamepad] Virtual gamepad mode activated")
-        self._activated = True
         return True
