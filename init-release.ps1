@@ -1,14 +1,17 @@
 ﻿# PowerShell script - Initialize release branch
-# Usage: .\init-release.ps1 "v2.0.0 - Initial version"
+# Usage: .\init-release.ps1 <version> <message>
+# Example: .\init-release.ps1 v2.0.0 "Initial version"
 
 # Check parameters
-if ($args.Count -eq 0) {
-    Write-Host "Usage: .\init-release.ps1 `"version message`"" -ForegroundColor Yellow
-    Write-Host "Example: .\init-release.ps1 `"v2.0.0 - Initial version`"" -ForegroundColor Yellow
+if ($args.Count -lt 2) {
+    Write-Host "Usage: .\init-release.ps1 <version> <message>" -ForegroundColor Yellow
+    Write-Host "Example: .\init-release.ps1 v2.0.0 `"Initial version`"" -ForegroundColor Yellow
     exit 1
 }
 
-$versionMessage = $args[0]
+$version = $args[0]
+$message = $args[1]
+$versionMessage = "$version - $message"
 
 # Display start information
 Write-Host ""
@@ -61,21 +64,8 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-# Extract version number and create tag
-Write-Host "[5/6] Create version tag..." -ForegroundColor Green
-$version = ""
-if ($versionMessage -match '^v[\d.]+') {
-    $version = $matches[0]
-    git tag -a $version -m $versionMessage
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "[Warning] Failed to create tag, may already exist" -ForegroundColor Yellow
-    }
-} else {
-    Write-Host "[Warning] Cannot extract version number, skip tagging" -ForegroundColor Yellow
-}
-
 # Push to GitHub
-Write-Host "[6/6] Push to GitHub..." -ForegroundColor Green
+Write-Host "[5/6] Push to GitHub..." -ForegroundColor Green
 git push origin release:main --force
 if ($LASTEXITCODE -ne 0) {
     Write-Host "[Error] Failed to push! Check network and permissions" -ForegroundColor Red
@@ -83,13 +73,22 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-# Push tag to GitHub
-if ($version -ne "") {
-    Write-Host "Push tag $version to GitHub..." -ForegroundColor Green
-    git push origin $version --force
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "[Warning] Failed to push tag" -ForegroundColor Yellow
-    }
+# Create tag on GitHub (not locally)
+Write-Host "[6/6] Create tag $version on GitHub..." -ForegroundColor Green
+
+# Delete old tag on GitHub if exists
+git push origin --delete $version 2>&1 | Out-Null
+
+# Create and push new tag
+git tag -a $version -m $versionMessage
+git push origin $version 2>&1 | Out-Null
+if ($LASTEXITCODE -eq 0) {
+    Write-Host "[OK] Tag $version created on GitHub" -ForegroundColor Green
+    # Delete local tag
+    git tag -d $version 2>&1 | Out-Null
+} else {
+    Write-Host "[Warning] Failed to create tag on GitHub" -ForegroundColor Yellow
+    git tag -d $version 2>&1 | Out-Null
 }
 
 # Switch back to original branch
@@ -109,4 +108,4 @@ Write-Host "GitHub: main = release" -ForegroundColor White
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
 
-Write-Host "For future releases use: .\push-release.ps1 `"version message`"" -ForegroundColor Yellow
+Write-Host "For future releases use: .\push-release.ps1 <version> <message>" -ForegroundColor Yellow

@@ -6,12 +6,13 @@
 - **本地main分支**：保留完整开发历史（250+提交），方便回溯、调试
 - **本地release分支**：干净历史，只有版本发布提交
 - **GitHub main分支**：= 本地release分支，保持整洁
+- **Tag管理**：tag只在GitHub上存在，本地不保留
 
 ## 初始化（首次使用）
 
 ```powershell
 # 初始化release分支并推送到GitHub
-.\init-release.ps1 "v2.0.0 - 初始版本"
+.\init-release.ps1 v2.0.0 "初始版本"
 ```
 
 执行后会：
@@ -19,13 +20,14 @@
 2. 添加所有文件（排除DEVELOPMENT.md）
 3. 提交初始版本
 4. 推送到GitHub的main分支
-5. 切回原分支继续开发
+5. 在GitHub创建tag v2.0.0（本地不保留）
+6. 切回原分支继续开发
 
 ## 发布新版本
 
 ```powershell
 # 发布新版本到GitHub
-.\push-release.ps1 "v2.1.0 - 新增好友浇水功能"
+.\push-release.ps1 v2.1.0 "新增好友浇水功能"
 ```
 
 执行后会：
@@ -34,7 +36,10 @@
 3. 添加所有文件（排除DEVELOPMENT.md）
 4. 提交新版本
 5. 推送到GitHub的main分支
-6. 切回原分支继续开发
+6. 删除GitHub上的旧tag（如果存在）
+7. 在GitHub创建新tag v2.1.0（本地不保留）
+8. 触发CI流程
+9. 切回原分支继续开发
 
 ## 日常开发流程
 
@@ -46,7 +51,7 @@ git commit -m "新增YYY功能"
 # ... 很多提交 ...
 
 # 2. 准备发布时
-.\push-release.ps1 "v2.1.0 - 新功能描述"
+.\push-release.ps1 v2.1.0 "新功能描述"
 
 # 3. 继续开发
 git add -A
@@ -67,11 +72,22 @@ git commit -m "继续开发..."
     └── ...
 
 GitHub仓库：
-└── main分支（= 本地release分支）
-    ├── v2.0.0
-    ├── v2.1.0
+├── main分支（= 本地release分支）
+│   ├── v2.0.0
+│   ├── v2.1.0
+│   └── ...
+└── tags
+    ├── v2.0.0（触发CI）
+    ├── v2.1.0（触发CI）
     └── ...
 ```
+
+## Tag管理策略
+
+- ✅ **本地不保留tag**：避免指向旧内容，防止覆盖文件修改
+- ✅ **tag只在GitHub上存在**：用于版本发布和CI触发
+- ✅ **强制覆盖旧tag**：删除GitHub上的旧tag后重新创建，确保CI触发
+- ✅ **参数格式**：`.\push-release.ps1 <version> <message>`
 
 ## 为什么排除DEVELOPMENT.md？
 
@@ -89,6 +105,7 @@ DEVELOPMENT.md包含详细的开发过程记录，包括：
 ✅ **GitHub**：干净整洁，只显示版本发布
 ✅ **简单**：一个命令完成发布
 ✅ **安全**：本地历史永远不会丢失
+✅ **CI触发**：强制覆盖tag确保CI流程触发
 
 ## 注意事项
 
@@ -96,3 +113,5 @@ DEVELOPMENT.md包含详细的开发过程记录，包括：
 2. **后续发布**：使用`push-release.ps1`发布新版本
 3. **不要在release分支开发**：只在main分支开发
 4. **推送失败**：检查网络连接和GitHub权限
+5. **重复发布**：可以重复发布同一版本号，会强制覆盖GitHub上的tag
+6. **本地无tag**：本地不保留tag，tag只在GitHub上存在
