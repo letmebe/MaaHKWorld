@@ -1,0 +1,241 @@
+{
+    "好友浇水_开始": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "好友浇水_传送到农贸作物"
+        ]
+    },
+    "好友浇水_传送到农贸作物": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "通用_传送到目标"
+        ]
+    },
+    "好友浇水_传送完成等待": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 2000,
+        "post_wait_freezes": 1000,
+        "next": [
+            "好友浇水_好友列表循环"
+        ]
+    },
+    "好友浇水_好友列表循环": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "InitFriendList",
+        "custom_action_param": "{\"friend_list\": [\"好友占位符\"]}",
+        "next": [
+            "好友浇水_检查更多好友",
+            "[JumpBack]好友浇水_当前好友"
+        ]
+    },
+    "好友浇水_检查更多好友": {
+        "recognition": "Custom",
+        "custom_recognition": "CheckMoreFriends",
+        "action": "DoNothing",
+        "next": [
+            "好友浇水_回家"
+        ]
+    },
+       "好友浇水_当前好友": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "CheckCurrentFriend",
+        "post_delay": 500,
+        "next": [
+            "好友浇水_打开好友菜单"
+        ]
+    },
+    "好友浇水_打开好友菜单": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "OpenFriendMenu",
+        "post_delay": 1000,
+        "next": [
+            "好友浇水_移动准星到菜单顶部"
+        ]
+    },
+     "好友浇水_移动准星到菜单顶部": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"x\": 1550, \"y\": 270, \"duration\": 0.3, \"steps\": 30}",
+        "post_delay": 300,
+        "next": [
+             "好友浇水_开始查找好友"
+        ]
+    },
+    "好友浇水_开始查找好友": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 300,
+        "next": [
+            "好友浇水_查找好友",
+            "[JumpBack]好友浇水_滚动菜单"
+        ]
+    },
+    "好友浇水_查找好友": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1200, 250, 460, 770],
+                "expected": ["好友占位符"]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_tasks\": [[\"好友浇水_检查浇水按钮\", \"near_target\"], [\"好友浇水_移动准星到浇水按钮\", \"move\"]], \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [
+            "好友浇水_检查浇水按钮",
+            "好友浇水_无需浇水"
+        ]
+    },
+    "好友浇水_无需浇水": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 300,
+        "next": [
+             "好友浇水_关闭菜单"
+        ]
+    },
+    "好友浇水_关闭菜单": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"B\"}",
+        "post_delay": 1000,
+        "next": [
+            "好友浇水_下一好友"
+        ]
+    },
+    "好友浇水_检查浇水按钮": {
+        "recognition": "Custom",
+        "custom_recognition": "CheckWateringButtonByOCR",
+        "action": "DoNothing",
+        "post_delay": 300,
+        "next": [
+            "好友浇水_移动准星到浇水按钮"
+        ]
+    },
+    "好友浇水_移动准星到浇水按钮": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorToWateringButton",
+        "post_delay": 500,
+        "next": [
+            "好友浇水_点击传送"
+        ]
+    },
+    "好友浇水_点击传送": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 1000,
+        "next": [
+            "好友浇水_确认传送"
+        ]
+    },
+    "好友浇水_确认传送": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 2000,
+        "next": [
+            "好友浇水_初始化种植循环"
+        ]
+    },
+    "好友浇水_初始化种植循环": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "好友浇水_退出种植循环",
+            "[JumpBack]好友浇水_种植循环"
+        ]
+    },
+    "好友浇水_种植循环": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 500,
+        "next": [
+            "好友浇水_前进一步"
+        ]
+    },
+    "好友浇水_前进一步": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"left\", \"x\": 0, \"y\": 30000, \"duration\": 0.18}",
+        "post_delay": 500,
+        "next": [
+            "好友浇水_重复点击RB"
+        ]
+    },
+    "好友浇水_重复点击RB": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"RB\"}",
+        "repeat": 2,
+        "repeat_wait_freezes": 500,
+        "repeat_delay": 1000,
+        "post_delay": 500,
+        "next": [
+            "好友浇水_检查已浇水田地"
+        ]
+    },
+    "好友浇水_检查已浇水田地": {
+        "recognition": "Custom",
+        "custom_recognition": "CheckWateredField",
+        "custom_recognition_param": "{\"roi\": [820, 180, 280, 40]}",
+        "action": "Custom",
+        "custom_action": "IncrementWaterCountIfHit",
+        "post_delay": 300,
+        "next": []
+    },
+    "好友浇水_退出种植循环": {
+        "recognition": "Custom",
+        "custom_recognition": "CheckWaterCount",
+        "custom_recognition_param": "{\"threshold\": 3}",
+        "action": "DoNothing",
+        "post_delay": 500,
+        "next": [
+            "好友浇水_下一好友"
+        ]
+    },
+    "好友浇水_下一好友": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "NextFriend",
+        "post_delay": 500,
+        "next": []
+    },
+    "好友浇水_滚动菜单": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"DPAD_DOWN\"}",
+        "repeat": 4,
+        "repeat_wait_freezes": 500,
+        "post_delay": 500,
+        "next": []
+    },
+    "好友浇水_回家": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "GoHome",
+        "post_delay": 2000,
+        "next": [
+            "好友浇水_完成"
+        ]
+    },
+    "好友浇水_完成": {
+        "recognition": "DirectHit",
+        "action": "StopTask"
+    }
+}

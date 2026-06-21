@@ -1,0 +1,184 @@
+{
+    "农场种植_开始": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ResetHerbPlant",
+        "next": [
+            "农场种植_传送到农贸作物"
+        ]
+    },
+    "农场种植_传送到农贸作物": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "通用_传送到目标"
+        ]
+    },
+    "农场种植_传送完成等待": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 2000,
+        "post_wait_freezes": 1000,
+        "next": [
+            "农场种植_初始化循环"
+        ]
+    },
+    "农场种植_初始化循环": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "农场种植_退出种植循环",
+            "[JumpBack]农场种植_种植循环"
+        ]
+    },
+     "农场种植_种植循环": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 500,
+        "next": [
+            "农场种植_前进一步"
+        ]
+    },
+    "农场种植_前进一步": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"left\", \"x\": 0, \"y\": 30000, \"duration\": 0.18}",
+        "post_delay": 500,
+        "next": [
+            "[JumpBack]农场种植_识别播种图像",
+            "农场种植_重复点击RB"           
+        ]
+    },
+    "农场种植_识别播种图像": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [1750, 950, 170, 130],
+                "template_name": "bozhongzuowu.png",
+                "threshold": 0.7
+            }
+        },
+        "action": "DoNothing",
+        "next": [
+            "农场种植_打开作物选择菜单"
+        ]
+    },
+    "农场种植_打开作物选择菜单": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"RB\"}",
+        "post_delay": 500,
+        "next": [
+            "农场种植_查找作物名",
+            "[JumpBack]农场种植_翻页查找作物"
+        ]
+    },
+    "农场种植_查找作物名": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1330, 160, 450, 540],
+                "expected": ["作物占位符"]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"农场种植_移动准星到作物\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [  
+            "农场种植_移动准星到作物"
+        ]
+    },
+    "农场种植_移动准星到作物": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"duration\": 0.3, \"steps\": 30}",
+        "next": [
+            "农场种植_选定作物"
+        ]
+    },
+    "农场种植_选定作物": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 500,
+        "next": []
+    },
+    "农场种植_翻页查找作物": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 0, \"y\": 30000, \"duration\": 0.2}",
+        "post_delay": 500,
+        "next": []
+    },
+    "农场种植_重复点击RB": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"RB\"}",
+        "repeat": 4,
+        "repeat_wait_freezes": 500,
+        "repeat_delay": 1000,
+        "post_delay": 500,
+        "anchor": "rep",
+        "next": [
+            "农场种植_处理对话框",
+            "农场种植_检查已开垦田地"
+        ]
+    },
+     "农场种植_处理对话框": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": ["熟练度提升"]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 200,
+        "next": [
+            "[Anchor]rep"
+        ]
+    },
+    "农场种植_检查已开垦田地": {
+        "recognition": "Custom",
+        "custom_recognition": "CheckTilledField",
+        "custom_recognition_param": "{\"roi\": [820, 180, 280, 40]}",
+        "action": "Custom",
+        "custom_action": "IncrementPlantCountIfHit",
+        "post_delay": 300,
+        "next": [
+            "农场种植_检查浇水时间"
+        ]
+    },
+    "农场种植_检查浇水时间": {
+        "recognition": "Custom",
+        "custom_recognition": "CheckWateringTimeText",
+        "custom_recognition_param": "{\"roi\": [0, 0, 1920, 1080]}",
+        "action": "Custom",
+        "custom_action": "ParseWateringTimeIfHit",
+        "post_delay": 300,
+        "next": []
+    },
+    "农场种植_退出种植循环": {
+        "recognition": "Custom",
+        "custom_recognition": "CheckPlantCount",
+        "custom_recognition_param": "{\"threshold\": 3}",
+        "action": "Custom",
+        "custom_action": "SaveWateringTime",
+        "post_delay": 500,
+        "next": [
+            "农场种植_完成"
+        ]
+    },
+    "农场种植_完成": {
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    }
+}
