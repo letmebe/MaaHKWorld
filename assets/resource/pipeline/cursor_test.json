@@ -1,0 +1,80 @@
+{
+    "光标测试_开始": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGameWindow",
+        "next": [
+            "光标测试_等待"
+        ]
+    },
+    "光标测试_等待": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 3000,
+        "next": [
+            "光标测试_激活手柄"
+        ]
+    },
+    "光标测试_激活手柄": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGamepad",
+        "next": [
+            "光标测试_移动到左上角"
+        ]
+    },
+    "光标测试_移动到左上角": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"x\": 640, \"y\": 360, \"duration\": 0.3, \"steps\": 30}",
+        "post_delay": 1000,
+        "next": [
+            "光标测试_移动到右上角"
+        ]
+    },
+    "光标测试_移动到右上角": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"x\": 1280, \"y\": 360, \"duration\": 0.3, \"steps\": 30}",
+        "post_delay": 1000,
+        "next": [
+            "光标测试_移动到右下角"
+        ]
+    },
+    "光标测试_移动到右下角": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"x\": 1280, \"y\": 720, \"duration\": 0.3, \"steps\": 30}",
+        "post_delay": 1000,
+        "next": [
+            "光标测试_移动到左下角"
+        ]
+    },
+    "光标测试_移动到左下角": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"x\": 640, \"y\": 720, \"duration\": 0.3, \"steps\": 30}",
+        "post_delay": 1000,
+        "next": [
+            "光标测试_移动到中心"
+        ]
+    },
+    "光标测试_移动到中心": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"x\": 960, \"y\": 540, \"duration\": 0.3, \"steps\": 30}",
+        "post_delay": 1000,
+        "next": [
+            "光标测试_完成"
+        ]
+    },
+    "光标测试_完成": {
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    }
+}

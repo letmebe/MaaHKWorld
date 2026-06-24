@@ -1,0 +1,830 @@
+{
+    "探险派遣_开始": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "探险派遣_传送到派遣小屋"
+        ]
+    },
+    "探险派遣_传送到派遣小屋": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "通用_传送到目标"
+        ]
+    },
+    "探险派遣_传送完成等待": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 2000,
+        "post_wait_freezes": 1000,
+        "next": [
+            "探险派遣_向前移动"
+        ]
+    },
+    "探险派遣_向前移动": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"left\", \"x\": 0, \"y\": 30000, \"duration\": 0.1}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_打开派遣画面"
+        ]
+    },
+    "探险派遣_打开派遣画面": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"Y\"}",
+        "post_delay": 1000,
+        "next": [
+            "探险派遣_晃动准星"
+        ]
+    },
+    "探险派遣_晃动准星": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "WiggleStick",
+        "custom_action_param": "{\"stick_value\": 10000, \"duration\": 0.1}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_查找地点_春溪原"
+        ]
+    },
+    "探险派遣_查找地点_春溪原": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    380,
+                    0,
+                    1060,
+                    1080
+                ],
+                "expected": [
+                    "春溪原"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u5730\\u70b9_\\u6625\\u6eaa\\u539f\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_移动准星到地点_春溪原"
+        ]
+    },
+    "探险派遣_移动准星到地点_春溪原": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_点击地点_春溪原"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到地点_春溪原"
+        ]
+    },
+    "探险派遣_点击地点_春溪原": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_打开菜单_春溪原"
+        ]
+    },
+    "探险派遣_打开菜单_春溪原": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_移动准星到菜单顶部_春溪原"
+        ]
+    },
+    "探险派遣_移动准星到菜单顶部_春溪原": {
+        "recognition": "Custom",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{\"target_x\": 1600, \"target_y\": 160, \"tolerance\": 10, \"max_iterations\": 20, \"stick\": \"left\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_查找人员_阿噗",
+            "[JumpBack]探险派遣_滚动菜单_阿噗"
+        ],
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "on_error": [
+            "探险派遣_移动准星到菜单顶部_春溪原"
+        ]
+    },
+    "探险派遣_查找人员_阿噗": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1290,
+                    0,
+                    630,
+                    1080
+                ],
+                "expected": [
+                    "阿噗"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u4eba\\u5458_\\u963f\\u5657\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_移动准星到人员_阿噗"
+        ],
+        "timeout": 60000
+    },
+    "探险派遣_滚动菜单_阿噗": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 10000, \"y\": -30000, \"duration\": 0.1}",
+        "post_delay": 300,
+        "next": []
+    },
+    "探险派遣_移动准星到人员_阿噗": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_选择人员_阿噗"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到人员_阿噗"
+        ]
+    },
+    "探险派遣_选择人员_阿噗": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_查找人员_啾啾",
+            "[JumpBack]探险派遣_滚动菜单_啾啾"
+        ],
+        "timeout": 3000
+    },
+    "探险派遣_查找人员_啾啾": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1290,
+                    0,
+                    630,
+                    1080
+                ],
+                "expected": [
+                    "啾啾"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u4eba\\u5458_\\u557e\\u557e\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_移动准星到人员_啾啾"
+        ],
+        "timeout": 60000
+    },
+    "探险派遣_滚动菜单_啾啾": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 10000, \"y\": -30000, \"duration\": 0.1}",
+        "post_delay": 300,
+        "next": []
+    },
+    "探险派遣_移动准星到人员_啾啾": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_选择人员_啾啾"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到人员_啾啾"
+        ]
+    },
+    "探险派遣_选择人员_啾啾": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_查找人员_哆哆",
+            "[JumpBack]探险派遣_滚动菜单_哆哆"
+        ],
+        "timeout": 3000
+    },
+    "探险派遣_查找人员_哆哆": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1290,
+                    0,
+                    630,
+                    1080
+                ],
+                "expected": [
+                    "哆哆"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u4eba\\u5458_\\u54c6\\u54c6\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_移动准星到人员_哆哆"
+        ],
+        "timeout": 60000
+    },
+    "探险派遣_滚动菜单_哆哆": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 10000, \"y\": -30000, \"duration\": 0.1}",
+        "post_delay": 300,
+        "next": []
+    },
+    "探险派遣_移动准星到人员_哆哆": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_选择人员_哆哆"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到人员_哆哆"
+        ]
+    },
+    "探险派遣_选择人员_哆哆": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_确认派遣_春溪原"
+        ],
+        "timeout": 3000
+    },
+    "探险派遣_确认派遣_春溪原": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_查找地点_秘禁之地"
+        ]
+    },
+    "探险派遣_查找地点_秘禁之地": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    380,
+                    0,
+                    1060,
+                    1080
+                ],
+                "expected": [
+                    "秘禁之地"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u5730\\u70b9_\\u79d8\\u7981\\u4e4b\\u5730\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_移动准星到地点_秘禁之地"
+        ]
+    },
+    "探险派遣_移动准星到地点_秘禁之地": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_点击地点_秘禁之地"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到地点_秘禁之地"
+        ]
+    },
+    "探险派遣_点击地点_秘禁之地": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_打开菜单_秘禁之地"
+        ]
+    },
+    "探险派遣_打开菜单_秘禁之地": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_移动准星到菜单顶部_秘禁之地"
+        ]
+    },
+    "探险派遣_移动准星到菜单顶部_秘禁之地": {
+        "recognition": "Custom",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{\"target_x\": 1600, \"target_y\": 160, \"tolerance\": 10, \"max_iterations\": 20, \"stick\": \"left\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_查找人员_卫宁",
+            "[JumpBack]探险派遣_滚动菜单_卫宁"
+        ],
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "on_error": [
+            "探险派遣_移动准星到菜单顶部_秘禁之地"
+        ]
+    },
+    "探险派遣_查找人员_卫宁": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1290,
+                    0,
+                    630,
+                    1080
+                ],
+                "expected": [
+                    "卫宁"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u4eba\\u5458_\\u536b\\u5b81\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_移动准星到人员_卫宁"
+        ],
+        "timeout": 60000
+    },
+    "探险派遣_滚动菜单_卫宁": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 10000, \"y\": -30000, \"duration\": 0.1}",
+        "post_delay": 300,
+        "next": []
+    },
+    "探险派遣_移动准星到人员_卫宁": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_选择人员_卫宁"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到人员_卫宁"
+        ]
+    },
+    "探险派遣_选择人员_卫宁": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_查找人员_堂听虎",
+            "[JumpBack]探险派遣_滚动菜单_堂听虎"
+        ],
+        "timeout": 3000
+    },
+    "探险派遣_查找人员_堂听虎": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1290,
+                    0,
+                    630,
+                    1080
+                ],
+                "expected": [
+                    "堂听虎"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u4eba\\u5458_\\u5802\\u542c\\u864e\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_移动准星到人员_堂听虎"
+        ],
+        "timeout": 60000
+    },
+    "探险派遣_滚动菜单_堂听虎": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 10000, \"y\": -30000, \"duration\": 0.1}",
+        "post_delay": 300,
+        "next": []
+    },
+    "探险派遣_移动准星到人员_堂听虎": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_选择人员_堂听虎"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到人员_堂听虎"
+        ]
+    },
+    "探险派遣_选择人员_堂听虎": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_查找人员_小红",
+            "[JumpBack]探险派遣_滚动菜单_小红"
+        ],
+        "timeout": 3000
+    },
+    "探险派遣_查找人员_小红": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1290,
+                    0,
+                    630,
+                    1080
+                ],
+                "expected": [
+                    "小红"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u4eba\\u5458_\\u5c0f\\u7ea2\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_移动准星到人员_小红"
+        ],
+        "timeout": 60000
+    },
+    "探险派遣_滚动菜单_小红": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 10000, \"y\": -30000, \"duration\": 0.1}",
+        "post_delay": 300,
+        "next": []
+    },
+    "探险派遣_移动准星到人员_小红": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_选择人员_小红"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到人员_小红"
+        ]
+    },
+    "探险派遣_选择人员_小红": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_确认派遣_秘禁之地"
+        ],
+        "timeout": 3000
+    },
+    "探险派遣_确认派遣_秘禁之地": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_查找地点_稷下学院"
+        ]
+    },
+    "探险派遣_查找地点_稷下学院": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    380,
+                    0,
+                    1060,
+                    1080
+                ],
+                "expected": [
+                    "稷下学院"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u5730\\u70b9_\\u7a37\\u4e0b\\u5b66\\u9662\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_移动准星到地点_稷下学院"
+        ]
+    },
+    "探险派遣_移动准星到地点_稷下学院": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_点击地点_稷下学院"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到地点_稷下学院"
+        ]
+    },
+    "探险派遣_点击地点_稷下学院": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_打开菜单_稷下学院"
+        ]
+    },
+    "探险派遣_打开菜单_稷下学院": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_移动准星到菜单顶部_稷下学院"
+        ]
+    },
+    "探险派遣_移动准星到菜单顶部_稷下学院": {
+        "recognition": "Custom",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{\"target_x\": 1600, \"target_y\": 160, \"tolerance\": 10, \"max_iterations\": 20, \"stick\": \"left\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_查找人员_学典鹅",
+            "[JumpBack]探险派遣_滚动菜单_学典鹅"
+        ],
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "on_error": [
+            "探险派遣_移动准星到菜单顶部_稷下学院"
+        ]
+    },
+    "探险派遣_查找人员_学典鹅": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1290,
+                    0,
+                    630,
+                    1080
+                ],
+                "expected": [
+                    "学典鹅"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u4eba\\u5458_\\u5b66\\u5178\\u9e45\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_移动准星到人员_学典鹅"
+        ],
+        "timeout": 60000
+    },
+    "探险派遣_滚动菜单_学典鹅": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 10000, \"y\": -30000, \"duration\": 0.1}",
+        "post_delay": 300,
+        "next": []
+    },
+    "探险派遣_移动准星到人员_学典鹅": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_选择人员_学典鹅"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到人员_学典鹅"
+        ]
+    },
+    "探险派遣_选择人员_学典鹅": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_查找人员_酷酷",
+            "[JumpBack]探险派遣_滚动菜单_酷酷"
+        ],
+        "timeout": 3000
+    },
+    "探险派遣_查找人员_酷酷": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1290,
+                    0,
+                    630,
+                    1080
+                ],
+                "expected": [
+                    "酷酷"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u4eba\\u5458_\\u9177\\u9177\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_移动准星到人员_酷酷"
+        ],
+        "timeout": 60000
+    },
+    "探险派遣_滚动菜单_酷酷": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 10000, \"y\": -30000, \"duration\": 0.1}",
+        "post_delay": 300,
+        "next": []
+    },
+    "探险派遣_移动准星到人员_酷酷": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_选择人员_酷酷"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到人员_酷酷"
+        ]
+    },
+    "探险派遣_选择人员_酷酷": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_查找人员_聪聪",
+            "[JumpBack]探险派遣_滚动菜单_聪聪"
+        ],
+        "timeout": 3000
+    },
+    "探险派遣_查找人员_聪聪": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1290,
+                    0,
+                    630,
+                    1080
+                ],
+                "expected": [
+                    "聪聪"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"\\u63a2\\u9669\\u6d3e\\u9063_\\u79fb\\u52a8\\u51c6\\u661f\\u5230\\u4eba\\u5458_\\u806a\\u806a\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_移动准星到人员_聪聪"
+        ],
+        "timeout": 60000
+    },
+    "探险派遣_滚动菜单_聪聪": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 10000, \"y\": -30000, \"duration\": 0.1}",
+        "post_delay": 300,
+        "next": []
+    },
+    "探险派遣_移动准星到人员_聪聪": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": "{}",
+        "next": [
+            "探险派遣_选择人员_聪聪"
+        ],
+        "on_error": [
+            "探险派遣_移动准星到人员_聪聪"
+        ]
+    },
+    "探险派遣_选择人员_聪聪": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣_确认派遣_稷下学院"
+        ],
+        "timeout": 3000
+    },
+    "探险派遣_确认派遣_稷下学院": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣_退出派遣画面"
+        ]
+    },
+    "探险派遣_退出派遣画面": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"B\"}",
+        "post_delay": 1000
+    }
+}

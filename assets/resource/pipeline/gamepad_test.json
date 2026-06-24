@@ -1,0 +1,39 @@
+{
+    "测试激活游戏窗口": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGameWindow",
+        "next": [
+            "测试等待"
+        ]
+    },
+    "测试等待": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 3000,
+        "next": [
+            "测试激活手柄模式"
+        ]
+    },
+    "测试激活手柄模式": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGamepad",
+        "next": [
+            "测试摇杆瞄准"
+        ]
+    },
+    "测试摇杆瞄准": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TestStickAim",
+        "next": [
+            "测试完成"
+        ]
+    },
+    "测试完成": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 1000
+    }
+}
