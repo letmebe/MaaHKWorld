@@ -1,0 +1,263 @@
+{
+    "探险派遣循环版_开始": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "探险派遣循环版_传送到派遣小屋"
+        ]
+    },
+    "探险派遣循环版_传送到派遣小屋": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "通用_传送到目标"
+        ]
+    },
+    "探险派遣循环版_传送完成等待": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 2000,
+        "post_wait_freezes": 1000,
+        "next": [
+            "探险派遣循环版_向前移动"
+        ]
+    },
+    "探险派遣循环版_向前移动": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"left\", \"x\": 0, \"y\": 30000, \"duration\": 0.2}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣循环版_分支判断"
+        ]
+    },
+    "探险派遣循环版_分支判断": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 500,
+        "timeout": 5000,
+        "next": [
+            "探险派遣循环版_派遣完成",
+            "探险派遣循环版_空闲"
+        ]
+    },
+    "探险派遣循环版_派遣完成": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": ["派遣完成"]
+            }
+        },
+        "action": "DoNothing",
+        "pre_delay": 500,
+        "next": [
+            "领取派遣_打开派遣画面"
+        ]
+    },
+    "探险派遣循环版_空闲": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": ["空闲"]
+            }
+        },
+        "action": "DoNothing",
+        "pre_delay": 500,
+        "next": [
+            "探险派遣循环版_打开派遣画面"
+        ]
+    },
+    "探险派遣循环版_打开派遣画面": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 1000,
+        "next": [
+            "探险派遣循环版_晃动准星"
+        ]
+    },
+    "探险派遣循环版_晃动准星": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "WiggleStick",
+        "custom_action_param": "{\"stick_value\": 10000, \"duration\": 0.1}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣循环版_初始化循环"
+        ]
+    },
+    "探险派遣循环版_初始化循环": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "DispatchLoopController",
+        "custom_action_param": "{\"action\": \"init\"}",
+        "next": [
+            "探险派遣循环版_退出派遣画面",
+            "[JumpBack]探险派遣循环版_下一个地点"
+        ]
+    },
+    "探险派遣循环版_下一个地点": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "DispatchLoopController",
+        "custom_action_param": "{\"action\": \"next_location\"}",
+        "post_delay": 1000,
+        "next": [           
+            "探险派遣循环版_查找地点"
+        ]
+    },
+    "探险派遣循环版_查找地点": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    380,
+                    0,
+                    1060,
+                    1080
+                ],
+                "expected": [
+                    "地点占位符"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"探险派遣循环版_移动准星到地点\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣循环版_移动准星到地点"
+        ]
+    },
+    "探险派遣循环版_移动准星到地点": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"duration\": 0.3, \"steps\": 30}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣循环版_点击地点"
+        ]
+    },
+    "探险派遣循环版_点击地点": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "pre_wait_freezes": 1000,
+        "post_delay": 500,
+        "next": [
+            "探险派遣循环版_打开菜单"
+        ]
+    },
+    "探险派遣循环版_打开菜单": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 500,
+        "next": [
+            "探险派遣循环版_移动准星到菜单顶部"
+        ]
+    },
+    "探险派遣循环版_移动准星到菜单顶部": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"x\": 1600, \"y\": 160, \"duration\": 0.3, \"steps\": 30}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣循环版_查找人员循环"
+        ]
+    },
+       "探险派遣循环版_查找人员循环": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "探险派遣循环版_确认派遣",
+            "[JumpBack]探险派遣循环版_开始查找人员"
+        ]
+    },
+    "探险派遣循环版_开始查找人员": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "DispatchLoopController",
+        "custom_action_param": "{\"action\": \"next_person\"}",
+        "next": [
+            "探险派遣循环版_查找人员",
+            "[JumpBack]探险派遣循环版_滚动菜单"
+        ]
+    },
+    "探险派遣循环版_查找人员": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [
+                    1290,
+                    0,
+                    630,
+                    1080
+                ],
+                "expected": [
+                    "人员占位符"
+                ]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"探险派遣循环版_移动准星到人员\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [
+            "探险派遣循环版_移动准星到人员"
+        ]
+    },
+    "探险派遣循环版_滚动菜单": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 10000, \"y\": -30000, \"duration\": 0.1}",
+        "post_delay": 300,
+        "next": []
+    },
+    "探险派遣循环版_移动准星到人员": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"duration\": 0.3, \"steps\": 30}",
+        "next": [
+            "探险派遣循环版_选择人员"
+        ]
+    },
+    "探险派遣循环版_选择人员": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 300,
+        "next": [],
+        "timeout": 3000
+    },
+    "探险派遣循环版_确认派遣": {
+        "recognition": "Custom",
+        "custom_recognition": "CheckPersonCount",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 500,
+        "next": []
+    },
+    "探险派遣循环版_退出派遣画面": {
+        "recognition": "Custom",
+        "custom_recognition": "CheckLocationCount",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"B\"}",
+        "post_delay": 1000
+    },
+    "探险派遣循环版_完成": {
+        "recognition": "DirectHit",
+        "action": "DoNothing"
+    }
+}

@@ -1,0 +1,152 @@
+{
+    "领取派遣_开始": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "领取派遣_传送到派遣小屋"
+        ]
+    },
+    "领取派遣_传送到派遣小屋": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "通用_传送到目标"
+        ]
+    },
+    "领取派遣_传送完成等待": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 2000,
+        "post_wait_freezes": 1000,
+        "next": [
+            "领取派遣_向前移动"
+        ]
+    },
+    "领取派遣_向前移动": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"left\", \"x\": 0, \"y\": 30000, \"duration\": 0.1}",
+        "post_delay": 500,
+        "next": [
+            "领取派遣_打开派遣画面"
+        ]
+    },
+    "领取派遣_打开派遣画面": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 1000,
+        "next": [
+            "领取派遣_晃动准星"
+        ]
+    },
+    "领取派遣_晃动准星": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "WiggleStick",
+        "custom_action_param": "{\"stick_value\": 10000, \"duration\": 0.1}",
+        "post_delay": 500,
+        "next": [
+            "领取派遣_查找完成派遣循环"
+        ]
+    },
+    "领取派遣_查找完成派遣循环": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 500,
+        "next": [
+            "[JumpBack]领取派遣_开始循环"
+        ]
+    },
+    "领取派遣_开始循环": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "SetDispatchResultIndex",
+        "post_delay": 500,
+        "next": [
+            "领取派遣_查找完成派遣",
+            "领取派遣_退出派遣画面"
+        ]
+    },
+    "领取派遣_查找完成派遣": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [70, 310, 210, 250],
+                "expected": ["完成派遣"],
+                "order_by": "Vertical",
+                "index": 0
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"领取派遣_移动准星到结果\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 500,
+        "next": [
+            "领取派遣_移动准星到结果"
+        ]
+    },
+    "领取派遣_移动准星到结果": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"duration\": 0.3, \"steps\": 30}",
+        "next": [
+            "领取派遣_选定结果"
+        ]
+    },
+    "领取派遣_选定结果": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 500,
+        "next": [
+            "领取派遣_确认结果"
+        ]
+    },
+    "领取派遣_确认结果": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 2000,
+        "next": [
+            "领取派遣_返回"
+        ]
+    },
+    "领取派遣_返回": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 500,
+        "next": [
+            "领取派遣_计数加一"
+        ]
+    },
+    "领取派遣_计数加一": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "IncrementDispatchResultIndex",
+        "post_delay": 500,
+        "next": [
+        ]
+    },
+    "领取派遣_退出派遣画面": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"B\"}",
+        "post_delay": 500,
+        "next": [
+            "领取派遣_完成"
+        ]
+    },
+    "领取派遣_完成": {
+        "recognition": "DirectHit",
+        "action": "StopTask"
+    }
+}

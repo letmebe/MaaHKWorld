@@ -1,0 +1,448 @@
+{
+    "interface_version": 2,
+    "name": "MaaHKWorld",
+    "label": "王者荣耀世界自动化助手",
+    "github": "https://github.com/letmebe/MaaHKWorld",
+    "version": "2.0.0",
+    "description": "王者荣耀世界自动化助手，目前已实现自动钓鱼以及探险派遣、药田种植、农场种植、牧场管理在内的家园玩法",
+    "agent": {
+        "child_exec": "../../venv/Scripts/python.exe",
+        "child_args": [
+            "../../agent/start_agent.py"
+        ]
+    },
+    "controller": [
+        {
+            "name": "Windows",
+            "label": "Windows桌面",
+            "type": "Win32",
+            "display_raw": true,
+            "win32": {
+                "class_regex": "UnrealWindow",
+                "window_regex": "王者荣耀世界",
+                "screencap": "FramePool",
+                "mouse": "SendMessage",
+                "keyboard": "SendMessage"
+            }
+        }
+    ],
+    "resource": [
+        {
+            "name": "HKWorldResource",
+            "label": "王者荣耀世界自动化资源",
+            "path": [
+                "../../assets/resource"
+            ]
+        }
+    ],
+    "task": [
+        {
+            "name": "StartFishing",
+            "label": "自动钓鱼",
+            "entry": "激活游戏窗口",
+            "default_check": false,
+            "description": "自动执行钓鱼操作，支持包括抛竿、拉杆、X/B连点、A/B/X/Y QTE 在内的全部操作类型"
+        },
+        {
+            "name": "FarmPlant",
+            "label": "农田种植",
+            "entry": "农场种植_开始",
+            "default_check": false,
+            "description": "自动种植作物。选项中的作物名称只在游戏中未选取作物种类时（周更新后重置导致，右下角显示小禾苗，而非之前种植的类型）才会应用，属于保底选项。正常情况下默认为你上次种植的类型，如需修改请事先在游戏内自行配置",
+            "option": [
+                "crop_name"
+            ],
+            "pipeline_override": {
+                "通用_传送_查找目标位置": {
+                    "recognition": {
+                        "type": "OCR",
+                        "param": {
+                            "expected": ["农贸作物"]
+                        }
+                    }
+                },
+                "通用_传送_等待加载": {
+                    "next": ["农场种植_传送完成等待"]
+                }
+            }
+        },
+        {
+            "name": "HerbPlant",
+            "label": "药田种植",
+            "entry": "药草种植_开始",
+            "default_check": false,
+            "description": "自动种植药草。药田种植选项中的药草名称只在游戏中未选取药草种类时（周更新后重置导致，右下角显示小人参，而非之前种植的类型）才会应用，属于保底选项。正常情况下默认为你上次种植的类型，如需修改请事先在游戏内自行配置。",
+            "option": [
+                "herb_name"
+            ],
+            "pipeline_override": {
+                "通用_传送_查找目标位置": {
+                    "recognition": {
+                        "type": "OCR",
+                        "param": {
+                            "expected": ["培养箱"]
+                        }
+                    }
+                },
+                "通用_传送_等待加载": {
+                    "next": ["药草种植_传送完成等待"]
+                }
+            }
+        },
+        {
+            "name": "Dispatch",
+            "label": "探险派遣",
+            "entry": "探险派遣循环版_开始",
+            "default_check": false,
+            "description": "自动执行探险派遣任务，可自定义地点和人员。选项是一个json文本，包括三个地点，每个地点对应三个人员，自定义时一定要保证人员在每个地点的出场顺序与选择菜单内顺序一致，都是自上而下的！",
+            "option": [
+                "dispatch_config"
+            ],
+            "pipeline_override": {
+                "通用_传送_查找目标位置": {
+                    "recognition": {
+                        "type": "OCR",
+                        "param": {
+                            "expected": ["派遣小屋"]
+                        }
+                    }
+                },
+                "通用_传送_等待加载": {
+                    "next": ["探险派遣循环版_传送完成等待"]
+                }
+            }
+        },
+        {
+            "name": "RanchManage1",
+            "label": "牧场区域一管理",
+            "entry": "牧场管理_区域一管理",
+            "default_check": false,
+            "description": "自动管理牧场区域一，召集动物、收集产物、添加饲料",
+            "pipeline_override": {
+                "通用_传送_查找目标位置": {
+                    "recognition": {
+                        "type": "OCR",
+                        "param": {
+                            "expected": ["牧场"]
+                        }
+                    }
+                },
+                "通用_传送_等待加载": {
+                    "next": ["牧场管理_区域一管理_传送完成等待"]
+                }
+            }
+        },
+        {
+            "name": "RanchManage2",
+            "label": "牧场区域二管理",
+            "entry": "牧场管理_区域二管理",
+            "default_check": false,
+            "description": "自动管理牧场区域二，召集动物、收集产物、添加饲料",
+            "pipeline_override": {
+                "通用_传送_查找目标位置": {
+                    "recognition": {
+                        "type": "OCR",
+                        "param": {
+                            "expected": ["牧场"]
+                        }
+                    }
+                },
+                "通用_传送_等待加载": {
+                    "next": ["牧场管理_区域二管理_传送完成等待"]
+                }
+            }
+        },
+        {
+            "name": "FriendWatering",
+            "label": "为指定好友浇水",
+            "entry": "好友浇水_开始",
+            "default_check": false,
+            "description": "自动为好友农田浇水，支持自定义好友列表。选项是一个json文本，请第一时间编辑好友名称列表!",
+            "option": [
+                "friend_list"
+            ],
+            "pipeline_override": {
+                "通用_传送_查找目标位置": {
+                    "recognition": {
+                        "type": "OCR",
+                        "param": {
+                            "expected": ["农贸作物"]
+                        }
+                    }
+                },
+                "通用_传送_等待加载": {
+                    "next": ["好友浇水_传送完成等待"]
+                }
+            }
+        }
+    ],
+    "option": {
+        "target_name": {
+            "label": "目标地点",
+            "cases": [
+                {
+                    "name": "派遣小屋",
+                    "label": "派遣小屋",
+                    "pipeline_override": {
+                        "传送_查找目标位置": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "expected": ["派遣小屋"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "培养箱",
+                    "label": "培养箱",
+                    "pipeline_override": {
+                        "传送_查找目标位置": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "expected": ["培养箱"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "其他",
+                    "label": "其他"
+                }
+            ],
+            "default_case": "派遣小屋"
+        },
+        "teleport_target": {
+            "type": "select",
+            "label": "选择传送目标",
+            "description": "选择要传送到的目标地点",
+            "cases": [
+                {
+                    "name": "农贸作物",
+                    "label": "农贸作物",
+                    "pipeline_override": {
+                        "通用_传送_查找目标位置": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "expected": ["农贸作物"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "培养箱",
+                    "label": "培养箱",
+                    "pipeline_override": {
+                        "通用_传送_查找目标位置": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "expected": ["培养箱"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "牧场",
+                    "label": "牧场",
+                    "pipeline_override": {
+                        "通用_传送_查找目标位置": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "expected": ["牧场"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "派遣小屋",
+                    "label": "派遣小屋",
+                    "pipeline_override": {
+                        "通用_传送_查找目标位置": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "expected": ["派遣小屋"]
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "default_case": "派遣小屋"
+        },
+        "dispatch_config": {
+            "type": "input",
+            "label": "派遣配置",
+            "description": "自定义地点和人员配置（JSON格式）",
+            "inputs": [
+                {
+                    "name": "config_json",
+                    "label": "配置JSON",
+                    "description": "注意人员一定要按照菜单从上到下的顺序配置！格式：{\"locations\": [\"春溪原\", ...], \"persons\": {\"春溪原\": [\"阿噗\", ...], ...}}",
+                    "default": "{\"locations\": [\"春溪原\", \"秘禁之地\", \"稷下学院\"], \"persons\": {\"春溪原\": [\"阿噗\", \"啾啾\", \"哆哆\"], \"秘禁之地\": [\"卫宁\", \"堂听虎\", \"小红\"], \"稷下学院\": [\"学典鹅\", \"酷酷\", \"聪聪\"]}}",
+                    "pipeline_type": "string"
+                }
+            ],
+            "pipeline_override": {
+                "探险派遣循环版_初始化循环": {
+                    "custom_action_param": "{\"action\": \"init\", \"config\": {config_json}}"
+                }
+            }
+        },
+        "herb_name": {
+            "type": "select",
+            "label": "药材名称",
+            "description": "选择要种植的药材",
+            "cases": [
+                {
+                    "name": "东方笙",
+                    "label": "东方笙",
+                    "pipeline_override": {
+                        "药草种植_查找药材名": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [1330, 160, 450, 540],
+                                    "expected": ["东方笙"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "铜碎薇",
+                    "label": "铜碎薇",
+                    "pipeline_override": {
+                        "药草种植_查找药材名": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [1330, 160, 450, 540],
+                                    "expected": ["铜碎薇"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "鱼果木",
+                    "label": "鱼果木",
+                    "pipeline_override": {
+                        "药草种植_查找药材名": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [1330, 160, 450, 540],
+                                    "expected": ["鱼果木"]
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "心语玫瑰",
+                    "label": "心语玫瑰",
+                    "pipeline_override": {
+                        "药草种植_查找药材名": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [1330, 160, 450, 540],
+                                    "expected": ["心语玫瑰"]
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "default_case": "铜碎薇"
+        },
+        "crop_name": {
+            "type": "select",
+            "label": "作物生长时间",
+            "description": "选择要种植作物的生长时间，种植满足条件的、等级最高的作物",
+            "cases": [
+                {
+                    "name": "16小时",
+                    "label": "16小时",
+                    "pipeline_override": {
+                        "农场种植_查找作物生长时间": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [1330, 160, 450, 540],
+                                    "expected": ["16小时"],
+                                    "order_by": "Vertical",
+                                    "index": -1
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "20小时",
+                    "label": "20小时",
+                    "pipeline_override": {
+                        "农场种植_查找作物生长时间": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [1330, 160, 450, 540],
+                                    "expected": ["20小时"],
+                                    "order_by": "Vertical",
+                                    "index": -1
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "name": "28小时",
+                    "label": "28小时",
+                    "pipeline_override": {
+                        "农场种植_查找作物生长时间": {
+                            "recognition": {
+                                "type": "OCR",
+                                "param": {
+                                    "roi": [1330, 160, 450, 540],
+                                    "expected": ["28小时"],
+                                    "order_by": "Vertical",
+                                    "index": -1
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "default_case": "28小时"
+        },
+        "friend_list": {
+            "type": "input",
+            "label": "好友列表",
+            "description": "自定义好友列表（JSON格式）",
+            "inputs": [
+                {
+                    "name": "friend_list_json",
+                    "label": "好友列表JSON",
+                    "description": "格式：{\"friend_list\": [\"好友1\", \"好友2\", ...]}",
+                    "default": "{\"friend_list\": [\"Trueman\"]}",
+                    "pipeline_type": "string"
+                }
+            ],
+            "pipeline_override": {
+                "好友浇水_好友列表循环": {
+                    "custom_action_param": "{friend_list_json}"
+                }
+            }
+        }
+    }
+}

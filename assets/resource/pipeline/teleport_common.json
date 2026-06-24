@@ -1,0 +1,133 @@
+{
+    "通用_传送到目标": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGameWindow",
+        "next": ["通用_传送_初始化等待"]
+    },
+    "通用_传送_初始化等待": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 3000,
+        "next": ["通用_传送_激活手柄模式"]
+    },
+    "通用_传送_激活手柄模式": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGamepad",
+        "next": ["通用_传送_打开菜单"]
+    },
+    "通用_传送_打开菜单": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"START\"}",
+        "post_delay": 2000,
+        "next": ["通用_传送__晃动准星"]
+    },
+    "通用_传送__晃动准星": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "WiggleStick",
+        "custom_action_param": "{\"stick_value\": 10000, \"duration\": 0.1}",
+        "post_delay": 500,
+        "next": [
+            "通用_传送_查找居所"
+        ]
+    },
+    "通用_传送_查找居所": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1270, 280, 460, 660],
+                "expected": ["居所"]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"通用_传送_移动准星到结果\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 500,
+        "next": [
+            "通用_传送_移动准星到结果"
+        ]
+    },
+    "通用_传送_移动准星到结果": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"duration\": 0.3, \"steps\": 30}",
+        "next": [
+            "通用_传送_点击居所"
+        ]
+    },
+    "通用_传送_点击居所": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 1500,
+        "next": ["通用_传送_点击管理Tab"]
+    },
+    "通用_传送_点击管理Tab": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"RB\"}",
+        "post_delay": 1000,
+        "next": ["通用_传送_验证管理Tab"]
+    },
+    "通用_传送_验证管理Tab": {
+        "recognition": {
+            "type": "TemplateMatch",
+            "param": {
+                "roi": [825, 0, 950, 100],
+                "template": "guanli.png",
+                "threshold": 0.90
+            }
+        },
+        "action": "DoNothing",
+        "post_delay": 500,
+        "next": ["通用_传送_查找目标位置"]
+    },
+    "通用_传送_查找目标位置": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "expected": ["派遣小屋"]
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"通用_传送_移动准星到目标\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 500,
+        "next": ["通用_传送_移动准星到目标"]
+    },
+    "通用_传送_移动准星到目标": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"duration\": 0.3, \"steps\": 30}",
+        "next": ["通用_传送_点击目标"]
+    },
+    "通用_传送_点击目标": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"A\"}",
+        "post_delay": 1000,
+        "next": ["通用_传送_确认传送"]
+    },
+    "通用_传送_确认传送": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 2000,
+        "next": ["通用_传送_等待加载"]
+    },
+    "通用_传送_等待加载": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "post_delay": 5000
+    }
+}
