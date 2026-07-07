@@ -1,0 +1,111 @@
+{
+    "瞄准测试_开始": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGameWindow",
+        "next": [
+            "瞄准测试_等待"
+        ]
+    },
+    "瞄准测试_等待": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 3000,
+        "next": [
+            "瞄准测试_激活手柄"
+        ]
+    },
+    "瞄准测试_激活手柄": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGamepad",
+        "next": [
+            "瞄准测试_左上角"
+        ]
+    },
+    "瞄准测试_左上角": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 1000,
+        "next": [
+            "瞄准_循环_左上角"
+        ]
+    },
+    "瞄准_循环_左上角": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": {
+            "threshold": 0.8
+        },
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": {
+            "target_x": 640,
+            "target_y": 360,
+            "tolerance": 10,
+            "stick": "left",
+            "x_sensitivity": 0.003,
+            "y_sensitivity": 0.003,
+            "max_iterations": 20
+        },
+        "next": [
+            "瞄准完成"
+        ],
+        "on_error": [
+            "瞄准_循环_左上角"
+        ]
+    },
+    "瞄准_超时_左上角": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 500,
+        "next": [
+            "瞄准测试_右上角"
+        ]
+    },
+    "瞄准完成": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 1000,
+        "next": [
+            "瞄准测试_右上角"
+        ]
+    },
+    "瞄准测试_右上角": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 1000,
+        "next": [
+            "瞄准_循环_右上角"
+        ]
+    },
+    "瞄准_循环_右上角": {
+        "recognition": "Custom",
+        "custom_recognition": "FindCrosshair",
+        "custom_recognition_param": {
+            "threshold": 0.8
+        },
+        "action": "Custom",
+        "custom_action": "MoveStick",
+        "custom_action_param": {
+            "target_x": 1280,
+            "target_y": 360,
+            "tolerance": 10,
+            "stick": "left",
+            "x_sensitivity": 0.003,
+            "y_sensitivity": 0.003,
+            "max_iterations": 20
+        },
+        "next": [
+            "瞄准测试_完成"
+        ],
+        "on_error": [
+            "瞄准_循环_右上角"
+        ]
+    },
+    "瞄准测试_完成": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 1000
+    }
+}

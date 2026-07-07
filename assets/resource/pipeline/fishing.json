@@ -1,0 +1,44 @@
+{
+    "激活游戏窗口": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGameWindow",
+        "next": [
+            "初始化等待"
+        ]
+    },
+    "初始化等待": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 5000,
+        "next": [
+            "激活手柄模式"
+        ]
+    },
+    "激活手柄模式": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGamepad",
+        "next": [
+            "钓鱼主循环"
+        ]
+    },
+    "钓鱼主循环": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "timeout": -1,
+        "next": [
+            "钓鱼多模板匹配"
+        ]
+    },
+    "钓鱼多模板匹配": {
+        "recognition": "Custom",
+        "custom_recognition": "FishingMultiMatch",
+        "custom_recognition_param": "{\"threshold\": 0.8}",
+        "action": "Custom",
+        "custom_action": "FishingMultiMatchAction",
+        "next": [
+            "钓鱼主循环"
+        ]
+    }
+}

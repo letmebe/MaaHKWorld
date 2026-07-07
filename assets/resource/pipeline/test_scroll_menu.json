@@ -1,0 +1,107 @@
+{
+    "测试滚动菜单_开始": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": [
+            "测试滚动菜单_激活游戏窗口"
+        ]
+    },
+    "测试滚动菜单_激活游戏窗口": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGameWindow",
+        "next": [
+            "测试滚动菜单_初始化等待"
+        ]
+    },
+    "测试滚动菜单_初始化等待": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 5000,
+        "next": [
+            "测试滚动菜单_激活手柄模式"
+        ]
+    },
+    "测试滚动菜单_激活手柄模式": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "ActivateGamepad",
+        "next": [
+            "测试滚动菜单_打开作物选择菜单"
+        ]
+    },
+    "测试滚动菜单_打开作物选择菜单": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"LB\"}",
+        "post_delay": 500,
+        "next": [
+            "测试滚动菜单_移动准星到菜单范围"
+        ]
+    },
+    "测试滚动菜单_移动准星到菜单范围": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"target_x\": 1555, \"target_y\": 430, \"duration\": 0.3, \"steps\": 30}",
+        "post_delay": 300,
+        "next": [
+            "测试滚动菜单_连续翻页到最底下"
+        ]
+    },
+       "测试滚动菜单_连续翻页到最底下": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveStickOnce",
+        "custom_action_param": "{\"stick\": \"right\", \"x\": 0, \"y\": -30000, \"duration\": 0.2}",
+        "repeat": 5,
+        "repeat_wait_freezes": 500,
+        "post_delay": 500,
+        "next": [
+            "测试滚动菜单_查找作物生长时间"
+        ]
+    },
+    "测试滚动菜单_查找作物生长时间": {
+        "recognition": {
+            "type": "OCR",
+            "param": {
+                "roi": [1330, 160, 450, 540],
+                "expected": ["20小时"],
+                "order_by": "Vertical",
+                "index": -1
+            }
+        },
+        "action": "Custom",
+        "custom_action": "ExtractOCRTarget",
+        "custom_action_param": "{\"next_task\": \"测试滚动菜单_移动准星到作物\", \"tolerance\": 10, \"max_iterations\": 20}",
+        "post_delay": 300,
+        "next": [  
+            "测试滚动菜单_移动准星到作物"
+        ]
+    },
+    "测试滚动菜单_移动准星到作物": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "MoveCursorSmooth",
+        "custom_action_param": "{\"duration\": 0.3, \"steps\": 30}",
+        "next": [
+            "测试滚动菜单_选定作物"
+        ]
+    },
+    "测试滚动菜单_选定作物": {
+        "recognition": "DirectHit",
+        "action": "Custom",
+        "custom_action": "TapButton",
+        "custom_action_param": "{\"button\": \"X\"}",
+        "post_delay": 500,
+        "next": [
+            "测试滚动菜单_完成"
+        ]
+    },
+    "测试滚动菜单_完成": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "pre_delay": 2000
+    }
+}

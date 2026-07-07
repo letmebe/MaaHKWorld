@@ -1,0 +1,7 @@
+{
+    "传送到目标_开始": {
+        "recognition": "DirectHit",
+        "action": "DoNothing",
+        "next": ["通用_传送到目标"]
+    }
+}

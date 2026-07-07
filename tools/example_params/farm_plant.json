@@ -1,0 +1,11 @@
+{
+  "pipeline_override": {
+    "农场种植_查找作物": {
+      "recognition": {
+        "param": {
+          "expected": ["冰魄辣椒"]
+        }
+      }
+    }
+  }
+}
